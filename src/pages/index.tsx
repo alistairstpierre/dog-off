@@ -1,28 +1,52 @@
 import { type NextPage } from "next";
 import Head from "next/head";
 import axios from "axios";
+import Image from "next/image";
+import { useState } from "react";
 
 interface Dog {
   name: string;
   image: string;
 }
 
-const getDogs = async (amount: Number) => {
+const dogsDisplayed = 4;
+
+const getDogs = async (amount: number) => {
   const savedDogs = [];
-  for(let i = 0; i < amount; i++) {
-    const image = await axios.get(`https://dog.ceo/api/breeds/image/random`).then(res => res.data.message)
-    const name = image.split('/')[4];
+  for (let i = 0; i < amount; i++) {
+    const image = await axios
+      .get(`https://dog.ceo/api/breeds/image/random`)
+      .then((res) => res.data.message);
+    const name = image.split("/")[4];
     savedDogs.push({ name, image });
   }
+  console.log(savedDogs);
   return savedDogs;
-}
+};
 
-const Home: NextPage = ({dogs}: any) => {
-  let randomDogIndex = Math.floor(Math.random() * dogs.length);
-  console.log(dogs);
+const Home: NextPage = ({ dogs, dogs2, initialDogIndex }: any) => {
+  const [dogIndex, setDogIndex] = useState(initialDogIndex);
+  const [storedDogs, setStoredDogs] = useState(dogs);
+  const [nextDogs, setNextDogs] = useState(dogs2);
+  const [correct, setCorrect] = useState("");
 
-  const dogSelected = (dog: Dog) => {
-    console.log(dog.name);
+  if (storedDogs.length === 0) {
+    return <div>Loading...</div>;
+  }
+
+  const newDogs = async (index:number, amount: number) => {
+    dogIndex == index ? setCorrect("Correct!") : setCorrect("Wrong!");
+    setStoredDogs([...nextDogs]);
+    setDogIndex(Math.floor(Math.random() * dogsDisplayed));
+    const savedDogs = [];
+    for (let i = 0; i < amount; i++) {
+      const image = await axios
+        .get(`https://dog.ceo/api/breeds/image/random`)
+        .then((res) => res.data.message);
+      const name = image.split("/")[4];
+      savedDogs.push({ name, image });
+    }
+    setNextDogs(savedDogs);
   }
 
   return (
@@ -33,15 +57,29 @@ const Home: NextPage = ({dogs}: any) => {
         <link rel="icon" href="/favicon.ico" />
       </Head>
       <main className="flex min-h-screen flex-col items-center justify-center bg-gradient-to-b from-[#2e026d] to-[#15162c]">
-        <h1 className="text-4xl text-white font-bold">Which dog is the {dogs[randomDogIndex].name}?</h1>
-        <div className="flex flex-wrap justify-center">
-          {dogs.map((dog:any, index:number) => (
-            <div className="flex flex-col items-center justify-center m-4" key={index}>
-              {/* <h2 className="text-2xl text-white font-bold">{dog.name}</h2> */}
-              <img src={dog.image} className="rounded-md max-h-80 w-80 shadow-xl hover:outline hover:outline-white hover:outline-4" onClick={() => {dogSelected(dog)}}/>
+        <h1 className="text-8xl font-bold text-white">{correct}</h1>
+        {storedDogs.length > 0 && (
+          <>
+            <h1 className="text-4xl font-bold text-white pb-4">
+              Which dog is the {storedDogs[dogIndex].name}
+            </h1>
+            <div className="flex flex-wrap justify-center">
+              {storedDogs.slice(0, 4).map((dog: Dog, index: number) => (
+                <Image
+                  width={500}
+                  height={500}
+                  key={index}
+                  alt={dog.name}
+                  src={dog.image}
+                  className="max-h-80 w-80 rounded-md shadow-xl hover:outline hover:outline-4 hover:outline-white"
+                  onClick={() => {
+                    newDogs(index, 4);
+                  }}
+                />
+              ))}
             </div>
-          ))}
-        </div>
+          </>
+        )}
       </main>
     </>
   );
@@ -50,10 +88,12 @@ const Home: NextPage = ({dogs}: any) => {
 export async function getStaticProps() {
   // Instead of fetching your `/api` route you can call the same
   // function directly in `getStaticProps`
-  const dogs = await getDogs(4);
+  const dogs = await getDogs(dogsDisplayed);
+  const dogs2 = await getDogs(dogsDisplayed);
+  const initialDogIndex = Math.floor(Math.random() * dogs.length);
 
   // Props returned will be passed to the page component
-  return { props: { dogs } }
+  return { props: { dogs, dogs2, initialDogIndex } };
 }
 
 export default Home;
