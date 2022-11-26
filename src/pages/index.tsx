@@ -3,11 +3,10 @@ import Head from "next/head";
 import axios from "axios";
 import Image from "next/image";
 import { useState } from "react";
-
-interface Dog {
-  name: string;
-  image: string;
-}
+import type Dog from "../interfaces";
+import Choice from "../components/choice";
+import Score from "../components/score";
+import Link from "next/link";
 
 const dogsDisplayed = 4;
 
@@ -28,26 +27,37 @@ const Home: NextPage = ({ dogs, dogs2, initialDogIndex }: any) => {
   const [dogIndex, setDogIndex] = useState(initialDogIndex);
   const [storedDogs, setStoredDogs] = useState(dogs);
   const [nextDogs, setNextDogs] = useState(dogs2);
-  const [correct, setCorrect] = useState("");
+  const [loadingDogs, setLoadingDogs] = useState(false);
+  const [score, setScore] = useState([] as Array<boolean>);
 
   if (storedDogs.length === 0) {
     return <div>Loading...</div>;
   }
 
-  const newDogs = async (index:number, amount: number) => {
-    dogIndex == index ? setCorrect("Correct!") : setCorrect("Wrong!");
-    setStoredDogs([...nextDogs]);
-    setDogIndex(Math.floor(Math.random() * dogsDisplayed));
-    const savedDogs = [];
-    for (let i = 0; i < amount; i++) {
-      const image = await axios
-        .get(`https://dog.ceo/api/breeds/image/random`)
-        .then((res) => res.data.message);
-      const name = image.split("/")[4];
-      savedDogs.push({ name, image });
+  const newDogs = async (correct: boolean) => {
+    if (!loadingDogs) {
+      setLoadingDogs(true);
+      setTimeout(() => {
+        setScore([...score, correct]);
+        setStoredDogs([...nextDogs]);
+        setDogIndex(Math.floor(Math.random() * dogsDisplayed));
+        setLoadingDogs(false);
+      }, 2000);
+      const savedDogs = [];
+      for (let i = 0; i < dogsDisplayed; i++) {
+        const image = await axios
+          .get(`https://dog.ceo/api/breeds/image/random`)
+          .then((res) => res.data.message);
+        const name = image.split("/")[4];
+        savedDogs.push({ name, image });
+      }
+      setNextDogs(savedDogs);
     }
-    setNextDogs(savedDogs);
-  }
+  };
+
+  const reset = () => {
+    setScore([]);
+  };
 
   return (
     <>
@@ -57,28 +67,70 @@ const Home: NextPage = ({ dogs, dogs2, initialDogIndex }: any) => {
         <link rel="icon" href="/favicon.ico" />
       </Head>
       <main className="flex min-h-screen flex-col items-center justify-center bg-gradient-to-b from-[#2e026d] to-[#15162c]">
-        <h1 className="text-8xl font-bold text-white">{correct}</h1>
-        {storedDogs.length > 0 && (
-          <>
-            <h1 className="text-4xl font-bold text-white pb-4">
-              Which dog is the {storedDogs[dogIndex].name}
-            </h1>
-            <div className="flex flex-wrap justify-center">
-              {storedDogs.slice(0, 4).map((dog: Dog, index: number) => (
-                <Image
-                  width={500}
-                  height={500}
-                  key={index}
-                  alt={dog.name}
-                  src={dog.image}
-                  className="max-h-80 w-80 rounded-md shadow-xl hover:outline hover:outline-4 hover:outline-white"
-                  onClick={() => {
-                    newDogs(index, 4);
-                  }}
-                />
-              ))}
+        <div className="laptop: flex w-[1024px] justify-center">
+          {score.length >= 10 ? (
+            <div className="absolute top-0 left-0 flex h-full w-full items-center justify-center">
+              <div className="flex flex-col items-center justify-center">
+                <h1 className="text-4xl text-white">
+                  You Scored: {score.filter(Boolean).length}!
+                </h1>
+                <div onClick={reset} className="flex h-16 w-32 text-black items-center justify-center bg-white cursor-pointer"><p>Restart</p></div>
+              </div>
             </div>
-          </>
+          ) : (
+            <>
+              <div>
+                {storedDogs.length > 0 && (
+                  <>
+                    <h1 className="pb-4 text-center text-4xl font-bold text-white">
+                      Which dog is the {storedDogs[dogIndex].name}?
+                    </h1>
+                    <div className="flex flex-wrap justify-center">
+                      {storedDogs.slice(0, 2).map((dog: Dog, index: number) => (
+                        <Choice
+                          key={index}
+                          dog={dog}
+                          callback={newDogs}
+                          clickable={loadingDogs}
+                          correct={
+                            dog.name == storedDogs[dogIndex].name ? true : false
+                          }
+                        />
+                      ))}
+                    </div>
+                    <div className="flex flex-wrap justify-center">
+                      {storedDogs.slice(2, 4).map((dog: Dog, index: number) => (
+                        <Choice
+                          key={index}
+                          dog={dog}
+                          callback={newDogs}
+                          clickable={loadingDogs}
+                          correct={
+                            dog.name == storedDogs[dogIndex].name ? true : false
+                          }
+                        />
+                      ))}
+                    </div>
+                  </>
+                )}
+              </div>
+              <Score score={score} />
+            </>
+          )}
+        </div>
+        {nextDogs.length > 0 && (
+          <div className="hidden">
+            {nextDogs.slice(0, 4).map((dog: Dog, index: number) => (
+              <Image
+                key={index}
+                width={300}
+                height={300}
+                priority={true}
+                alt={dog.name}
+                src={dog.image}
+              />
+            ))}
+          </div>
         )}
       </main>
     </>
