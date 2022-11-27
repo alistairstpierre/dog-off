@@ -74,12 +74,19 @@ const Home: NextPage = ({ dogs, dogs2, initialDogIndex }: any) => {
                 <h1 className="text-4xl text-white">
                   You Scored: {score.filter(Boolean).length}!
                 </h1>
-                <div onClick={reset} className="flex h-16 w-32 text-black items-center justify-center bg-white cursor-pointer"><p>Restart</p></div>
+                <Link href="/game/standard">
+                    <div
+                    className="flex h-16 w-32 cursor-pointer items-center justify-center bg-white text-black"
+                    >
+                    <p>Restart</p>
+                    </div>
+                </Link>
               </div>
             </div>
           ) : (
             <>
               <div>
+              {/* <h1>Send this link to challenge someone to the same dogs!</h1> */}
                 {storedDogs.length > 0 && (
                   <>
                     <h1 className="pb-4 text-center text-4xl font-bold text-white">
