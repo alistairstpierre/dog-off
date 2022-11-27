@@ -103,8 +103,11 @@ const Standard = ({
                   onClick={reset}
                   className="flex h-16 w-32 cursor-pointer items-center justify-center bg-white text-black"
                 >
-                  <p>Restart</p>
+                  <p>Play Again</p>
                 </div>
+                <p className="text-white text-center">Send this link to challenge someone to the same dogs!</p>
+                <textarea className="text-xs rounded-lg" id="w3review" name="w3review" rows={4} cols={100} value={challengeLink} readOnly={true}>
+                </textarea>
               </div>
             </div>
           ) : (
