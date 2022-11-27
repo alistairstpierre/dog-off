@@ -78,7 +78,7 @@ const Standard = ({
     const dogs2 = await getDogs(dogQueries, 4, dogsDisplayed);
     setNextDogs(dogs2);
     setDogIndex(0);
-    const challengeL = `https://dog-game.vercel.app/game/standard/${encodeURIComponent(
+    const challengeL = `https://dog-off.vercel.app/game/standard/${encodeURIComponent(
       JSON.stringify(dogQueries.map((query) => query.index))
     )}`;
     setChallengeLink(challengeL);
@@ -221,7 +221,7 @@ export async function getServerSideProps() {
   const queries = getQueries(gameDogs);
   const dogs1 = await getDogs(queries, 0, dogsDisplayed);
   const dogs2 = await getDogs(queries, 4, dogsDisplayed);
-  const challenge = `https://dog-game.vercel.app/game/standard/${encodeURIComponent(
+  const challenge = `https://dog-off.vercel.app/game/standard/${encodeURIComponent(
     JSON.stringify(queries.map((query) => query.index))
   )}`;
 

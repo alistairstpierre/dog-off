@@ -210,7 +210,7 @@ export async function getServerSideProps(context: { query: { dogs: any } }) {
   const queries = getQueries(gameDogs, dogs);
   const dogs1 = await getDogs(queries, 0, dogsDisplayed);
   const dogs2 = await getDogs(queries, 4, dogsDisplayed);
-  const challenge = `https://dog-game.vercel.app/game/standard/${encodeURIComponent(
+  const challenge = `https://dog-off.vercel.app/game/standard/${encodeURIComponent(
     JSON.stringify(queries.map((query) => query.index))
   )}`;
   
