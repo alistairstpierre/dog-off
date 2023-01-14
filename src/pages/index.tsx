@@ -91,7 +91,7 @@ const Standard = ({
   return (
     <>
       <Head>
-        <title>Dog Off</title>
+        <title>Guess The Dog Game</title>
         <meta name="description" content="The ultimate dog guessing game." />
         <link rel="icon" href="/favicon.ico" />
       </Head>
