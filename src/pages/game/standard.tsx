@@ -7,7 +7,8 @@ import Choice from "../../components/choice";
 import Score from "../../components/score";
 import type { DogQuery } from "../../interfaces";
 import seedrandom from "seedrandom";
-import { FacebookShareButton, FacebookIcon } from "next-share";
+import { FacebookShareButton, FacebookIcon, LineIcon, LineShareButton, RedditShareButton, RedditIcon, TelegramShareButton, TelegramIcon, TumblrShareButton, TumblrIcon, TwitterShareButton, TwitterIcon, WhatsappShareButton, WhatsappIcon, WeiboShareButton, WeiboIcon } from "next-share";
+import Link from "next/link";
 
 interface PageProps {
   gameDogs: any;
@@ -82,7 +83,7 @@ const Standard = ({
     const dogs2 = await getDogs(dogQueries, 4, dogsDisplayed);
     setNextDogs(dogs2);
     setDogIndex(0);
-    const challengeL = `https://dog-off.vercel.app/game/standard/${rngString}`;
+    const challengeL = `https://dogoff.co/game/standard/${rngString}`;
     setChallengeLink(challengeL);
   };
 
@@ -94,16 +95,72 @@ const Standard = ({
         <link rel="icon" href="/favicon.ico" />
       </Head>
       <main className="flex min-h-screen flex-col items-center justify-center bg-slate-800">
-        <div className="laptop: flex w-[1024px] justify-center">
+        <div className="laptop: flex w-[1024px] justify-center min-h-[500px] bg-slate-700 p-10 rounded-3xl">
           {score.length >= 10 ? (
             <div className="absolute top-0 left-0 flex h-full w-full items-center justify-center">
               <div className="flex flex-col items-center justify-center">
                 <h1 className="text-4xl text-white">
-                  You Scored: {score.filter(Boolean).length}!
+                  You Scored: {score.filter(Boolean).length}/10!
                 </h1>
+                <p className="text-white text-center">Share to challenge someone to the same dogs!</p>
+                <div className="flex justify-center">
+                  <FacebookShareButton
+                    url={`${challengeLink}`}
+                    quote={'Can you identify dogs breeds better than the average dog lover?'}
+                    hashtag={'#dogoff'}
+                  >
+                    <FacebookIcon size={32} round />
+                  </FacebookShareButton>
+                  <LineShareButton
+                    url={`${challengeLink}`}
+                    title={'Can you identify dogs breeds better than the average dog lover?'}
+                  >
+                    <LineIcon size={32} />
+                  </LineShareButton>
+                  <RedditShareButton
+                    url={`${challengeLink}`}
+                    title={'Can you identify dogs breeds better than the average dog lover?'}
+                  >
+                    <RedditIcon size={32} round />
+                  </RedditShareButton>
+                  <TelegramShareButton
+                    url={`${challengeLink}`}
+                    title={'Can you identify dogs breeds better than the average dog lover?'}
+                  >
+                    <TelegramIcon size={32} round />
+                  </TelegramShareButton>
+                  <TumblrShareButton
+                    url={`${challengeLink}`}
+                    title={'Can you identify dogs breeds better than the average dog lover?'}
+                    tags={['#dogoff', '#dogchallenge']}
+                  >
+                    <TumblrIcon size={32} round />
+                  </TumblrShareButton>
+                  <TwitterShareButton
+                    url={`${challengeLink}`}
+                    title={'Can you identify dogs breeds better than the average dog lover?'}
+                    hashtags={['#dogoff', '#dogchallenge']}
+                  >
+                    <TwitterIcon size={32} round />
+                  </TwitterShareButton>
+                  <WhatsappShareButton
+                    url={`${challengeLink}`}
+                    title={'Can you identify dogs breeds better than the average dog lover?'}
+                    separator=":: "
+                  >
+                    <WhatsappIcon size={32} round />
+                  </WhatsappShareButton>
+                  <WeiboShareButton
+                    url={`${challengeLink}`}
+                    title={'你是否比普通的狗爱好者更擅长识别狗的品种？'}
+                  >
+                    <WeiboIcon size={32} round />
+                  </WeiboShareButton>
+                </div>
+                <Link href={challengeLink}><p className="text-blue-500 text-center">{challengeLink}</p></Link>
                 <div
                   onClick={reset}
-                  className="flex h-16 w-32 cursor-pointer items-center justify-center bg-white text-black"
+                  className="flex h-16 w-32 rounded-lg cursor-pointer items-center justify-center bg-white text-black"
                 >
                   <p>Restart</p>
                 </div>
@@ -149,18 +206,62 @@ const Standard = ({
                     </div>
                   </>
                 )}
+                <p className="text-white text-center">Share to challenge someone to the same dogs!</p>
                 <div className="flex justify-center">
                   <FacebookShareButton
                     url={`${challengeLink}`}
                     quote={'Can you identify dogs breeds better than the average dog lover?'}
-                    hashtag={'#dogoff #dogchallenge'}
+                    hashtag={'#dogoff'}
                   >
                     <FacebookIcon size={32} round />
                   </FacebookShareButton>
+                  <LineShareButton
+                    url={`${challengeLink}`}
+                    title={'Can you identify dogs breeds better than the average dog lover?'}
+                  >
+                    <LineIcon size={32} />
+                  </LineShareButton>
+                  <RedditShareButton
+                    url={`${challengeLink}`}
+                    title={'Can you identify dogs breeds better than the average dog lover?'}
+                  >
+                    <RedditIcon size={32} round />
+                  </RedditShareButton>
+                  <TelegramShareButton
+                    url={`${challengeLink}`}
+                    title={'Can you identify dogs breeds better than the average dog lover?'}
+                  >
+                    <TelegramIcon size={32} round />
+                  </TelegramShareButton>
+                  <TumblrShareButton
+                    url={`${challengeLink}`}
+                    title={'Can you identify dogs breeds better than the average dog lover?'}
+                    tags={['#dogoff', '#dogchallenge']}
+                  >
+                    <TumblrIcon size={32} round />
+                  </TumblrShareButton>
+                  <TwitterShareButton
+                    url={`${challengeLink}`}
+                    title={'Can you identify dogs breeds better than the average dog lover?'}
+                    hashtags={['#dogoff', '#dogchallenge']}
+                  >
+                    <TwitterIcon size={32} round />
+                  </TwitterShareButton>
+                  <WhatsappShareButton
+                    url={`${challengeLink}`}
+                    title={'Can you identify dogs breeds better than the average dog lover?'}
+                    separator=":: "
+                  >
+                    <WhatsappIcon size={32} round />
+                  </WhatsappShareButton>
+                  <WeiboShareButton
+                    url={`${challengeLink}`}
+                    title={'你是否比普通的狗爱好者更擅长识别狗的品种？'}
+                  >
+                    <WeiboIcon size={32} round />
+                  </WeiboShareButton>
                 </div>
-                <p className="text-white text-center">Send this link to challenge someone to the same dogs!</p>
-                <textarea className="text-xs rounded-lg" id="w3review" name="w3review" rows={4} cols={100} value={challengeLink} readOnly={true}>
-                </textarea>
+                <Link href={challengeLink}><p className="text-blue-500 text-center">{challengeLink}</p></Link>
               </div>
               <Score score={score} />
             </>
@@ -234,7 +335,7 @@ export async function getServerSideProps() {
   const queries = getQueries(gameDogs, rng);
   const dogs1 = await getDogs(queries, 0, dogsDisplayed);
   const dogs2 = await getDogs(queries, 4, dogsDisplayed);
-  const challenge = `https://dog-off.vercel.app/game/standard/${rngString}`;
+  const challenge = `https://dogoff.co/game/standard/${rngString}`;
 
   // Props returned will be passed to the page component
   return { props: { dogs1, dogs2, queries, challenge, gameDogs } };

@@ -30,7 +30,6 @@ const Score = ({ score }: ScoreProps) => {
           );
         })}
       </div>
-      ;
     </>
   );
 };

@@ -29,7 +29,7 @@ const Choice = ({dog, correct, callback ,clickable}: ChoiceProps) => {
                 height={300}
                 alt={dog.name}
                 src={dog.image}
-                className="h-48 w-64 cursor-pointer rounded-t-lg object-cover"
+                className="h-48 w-64 cursor-pointer rounded-lg object-cover"
                 onClick={() => {
                     if(!clickable) {
                         showResult();
