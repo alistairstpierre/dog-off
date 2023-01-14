@@ -108,7 +108,7 @@ const Standard = ({
                   onClick={reset}
                   className="flex h-16 w-32 rounded-lg cursor-pointer items-center justify-center bg-white text-black"
                 >
-                  <p>Restart</p>
+                  <p>New Game</p>
                 </div>
               </div>
             </div>
