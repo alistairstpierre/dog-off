@@ -7,11 +7,11 @@ interface ScoreProps {
 const Score = ({ score }: ScoreProps) => {
   return (
     <>
-      <div className="ml-8 mr-4">
+      <div className="ml-0 tablet:ml-2 mr-2">
         <h1 className="text-center text-2xl text-green-800 font-black">{score.filter(Boolean).length}</h1>
         <h1 className="text-center text-2xl text-red-800">{score.filter((item) => !Boolean(item)).length}</h1>
       </div>
-      <div className="flex w-12 flex-col items-center gap-2 rounded-lg bg-white p-2">
+      <div className="flex w-12 flex-col items-center gap-2 rounded-lg bg-white p-2 mr-2">
         {score.map((correct, index) => {
           const bgColor = correct ? "bg-green-100" : "bg-red-100";
           return (

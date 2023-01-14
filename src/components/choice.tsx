@@ -23,7 +23,7 @@ const Choice = ({dog, correct, callback ,clickable}: ChoiceProps) => {
     }, [dog]);
 
     return (
-        <div className="flex flex-col m-6 hover:outline hover:outline-4 hover:outline-white rounded-lg">
+        <div className="flex flex-col mx-2 my-1 hover:outline hover:outline-4 hover:outline-white rounded-lg">
             <Image
                 width={300}
                 height={300}
