@@ -163,6 +163,7 @@ const Standard = ({
             {nextDogs.slice(0, 4).map((dog: Dog, index: number) => (
               <Image
                 key={index}
+                unoptimized
                 width={300}
                 height={300}
                 priority={true}
